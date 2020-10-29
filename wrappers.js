@@ -1,6 +1,4 @@
 import { ObjectWrap } from "./objectWrap.js";
-
-
 export class TimeoutObject extends ObjectWrap {
 
 	act(action, args) {
@@ -50,29 +48,39 @@ export class MovingObject extends ObjectWrap {
 
 export class DrawingObject extends ObjectWrap {
 	#render;
-	constructor(render) {
+	constructor(render, object) {
+		if (!(render instanceof Render)) throw (`${render} is not instanceof Render!`)
+		super(object);
 		this.#render = render;
 	}
 
 	act(action, args) {
 		super.act(action, args);
 
-		if (action == 'Move') {
-
-			const x = args[0];
-			const y = args[1];
-
-			this.#render.pushPos();
-			this.#render.move(x, y);
-			this.#render.sprite();
-			this.#render.popPos();
-
+		if (action == 'Draw') {
+			// this.#render.pushPos();
+			// this.#render.move(x, y);
+			// this.#render.sprite();
+			// this.#render.popPos();
+			console.log(this.name, 'Draw');
 			this._callEvent('Draw');
 		}
+		// if (action == 'Move') {
+
+		// 	const x = args[0];
+		// 	const y = args[1];
+
+		// 	this.#render.pushPos();
+		// 	this.#render.move(x, y);
+		// 	this.#render.sprite();
+		// 	this.#render.popPos();
+
+		// 	this._callEvent('Draw');
+		// }
 	}
 }
 
-class Render {
+export class Render {
 	#x = 0;
 	#y = 0;
 	#posStack = [];
