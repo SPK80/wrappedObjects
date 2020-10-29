@@ -38,7 +38,7 @@ const obj2 = new DrawingObject(r,
 	new Object('obj2'));
 n.add(obj2);
 
-n.act('Draw', [0]);
+n.act('Draw');
 
 // obj1.act('Draw', [1]);
 
