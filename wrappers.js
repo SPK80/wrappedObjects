@@ -29,9 +29,9 @@ export class DeletingObject extends ObjectWrap {
 	}
 }
 
-export class MovingObject extends ObjectWrap {
-	#x = 0;
-	#y = 0;
+class MovingObject extends ObjectWrap {
+	_x = 0;
+	_y = 0;
 
 	act(action, args) {
 		super.act(action, args);
@@ -39,14 +39,22 @@ export class MovingObject extends ObjectWrap {
 		if (action == 'Move') {
 			const x = args[0];
 			const y = args[1];
-			this.#x = x;
-			this.#y = y;
-			this._callEvent('Move', [this.#x, this.#y]);
+			this._x = x;
+			this._y = y;
+			this._callEvent('Move', [this._x, this._y]);
+		}
+
+		if (action == 'Shift') {
+			const x = args[0];
+			const y = args[1];
+			this._x += x;
+			this._y += y;
+			this._callEvent('Shift', [this._x, this._y]);
 		}
 	}
 }
 
-export class DrawingObject extends ObjectWrap {
+export class DrawingObject extends MovingObject {
 	#render;
 	constructor(render, object) {
 		if (!(render instanceof Render)) throw (`${render} is not instanceof Render!`)
@@ -58,25 +66,14 @@ export class DrawingObject extends ObjectWrap {
 		super.act(action, args);
 
 		if (action == 'Draw') {
-			// this.#render.pushPos();
-			// this.#render.move(x, y);
-			// this.#render.sprite();
-			// this.#render.popPos();
-			console.log(this.name, 'Draw');
+			console.group(this.name);
+			this.#render.pushPos();
+			this.#render.move(this._x, this._y);
+			this.#render.sprite();
 			this._callEvent('Draw');
+			this.#render.popPos();
+			console.groupEnd();
 		}
-		// if (action == 'Move') {
-
-		// 	const x = args[0];
-		// 	const y = args[1];
-
-		// 	this.#render.pushPos();
-		// 	this.#render.move(x, y);
-		// 	this.#render.sprite();
-		// 	this.#render.popPos();
-
-		// 	this._callEvent('Draw');
-		// }
 	}
 }
 
@@ -92,12 +89,15 @@ export class Render {
 
 	popPos() {
 		const pos = this.#posStack.pop();
+		this.#x = pos.x;
+		this.#y = pos.y;
+
 		console.log(`popPos(${this.#x},${this.#y})`);
 	}
 
 	move(x, y) {
-		this.#x = x;
-		this.#y = y;
+		this.#x += x;
+		this.#y += y;
 		console.log(`move(${x},${y})`);
 	}
 

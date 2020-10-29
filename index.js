@@ -1,7 +1,7 @@
 import { Node } from "./node.js"
 import { ListeningNode } from "./nodeWrap.js"
 import { Object } from "./object.js";
-import { DeletingObject, DrawingObject, MovingObject, Render, TimeoutObject } from "./wrappers.js";
+import { DrawingObject, Render } from "./wrappers.js";
 
 
 const r = new Render();
@@ -33,13 +33,15 @@ const n = new ListeningNode(
 const obj1 = new DrawingObject(r,
 	new Object('obj1'));
 n.add(obj1);
+obj1.act('Move', [1, 2])
 
 const obj2 = new DrawingObject(r,
 	new Object('obj2'));
+obj2.act('Move', [3, 4])
 n.add(obj2);
 
+n.act('Move', [3, 4])
 n.act('Draw');
 
-// obj1.act('Draw', [1]);
-
-// obj2.act('Draw', [2]);
+n.act('Shift', [-1, 1])
+n.act('Draw');
