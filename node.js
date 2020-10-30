@@ -6,11 +6,9 @@ export class INode extends IObject {
 	del(name) { throw ('del() not implemented') }
 }
 
-export class Node extends INode { //Node wraps owner Object
-	#objects = [];
-	get objects() { return this.#objects.slice() }
-
+export class Node extends INode { //Node wraps owner Object	
 	#owner;
+	// get owner() { return this.#owner }
 	constructor(owner) {
 		super();
 		this.#owner = owner;
@@ -21,6 +19,9 @@ export class Node extends INode { //Node wraps owner Object
 	listen(callback) { return this.#owner.listen(callback) }
 
 	act(action, args) { this.#owner.act(action, args) }
+
+	#objects = [];
+	get objects() { return this.#objects.slice() }
 
 	add(obj) {
 		if (!(obj instanceof IObject)) throw (`${obj} not instanceof IObject`);
@@ -35,5 +36,28 @@ export class Node extends INode { //Node wraps owner Object
 		else {
 			delete this.#objects[this.#objects.indexOf(obj)];
 		}
+	}
+}
+
+export class ListeningNode extends Node {
+	#listeningFunc;
+	#unlistenFuncs = {};
+
+	constructor(owner, listeningFunc) {
+		if (!listeningFunc) throw ('listeningFunc undifined');
+		super(owner);
+		this.#listeningFunc = listeningFunc;
+		this.#unlistenFuncs[this.name] = this.listen(this.#listeningFunc);
+	}
+
+	add(obj) {
+		super.add(obj);
+		this.#unlistenFuncs[obj.name] = obj.listen(this.#listeningFunc);
+	}
+
+	del(name) {
+		super.del(name);
+		const unlistenFunc = this.#unlistenFuncs[name];
+		if (unlistenFunc) { unlistenFunc() }
 	}
 }

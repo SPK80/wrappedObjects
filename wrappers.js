@@ -29,9 +29,11 @@ export class DeletingObject extends ObjectWrap {
 	}
 }
 
-class MovingObject extends ObjectWrap {
-	_x = 0;
-	_y = 0;
+export class PositionObject extends ObjectWrap {
+	#x = 0;
+	get x() { return this.#x }
+	#y = 0;
+	get y() { return this.#y }
 
 	act(action, args) {
 		super.act(action, args);
@@ -40,24 +42,25 @@ class MovingObject extends ObjectWrap {
 			const x = args[0];
 			const y = args[1];
 			this._x = x;
-			this._y = y;
-			this._callEvent('Move', [this._x, this._y]);
+			this.#y = y;
+			this._callEvent('Move', [this.#x, this.#y]);
 		}
 
 		if (action == 'Shift') {
 			const x = args[0];
 			const y = args[1];
-			this._x += x;
-			this._y += y;
-			this._callEvent('Shift', [this._x, this._y]);
+			this.#x += x;
+			this.#y += y;
+			this._callEvent('Shift', [this.#x, this.#y]);
 		}
 	}
 }
 
-export class DrawingObject extends MovingObject {
+export class DrawingObject extends ObjectWrap {
 	#render;
 	constructor(render, object) {
-		if (!(render instanceof Render)) throw (`${render} is not instanceof Render!`)
+		if (!(object instanceof PositionObject)) throw (`${object} is not instanceof PositionObject!`);
+		if (!(render instanceof Render)) throw (`${render} is not instanceof Render!`);
 		super(object);
 		this.#render = render;
 	}
@@ -68,7 +71,7 @@ export class DrawingObject extends MovingObject {
 		if (action == 'Draw') {
 			console.group(this.name);
 			this.#render.pushPos();
-			this.#render.move(this._x, this._y);
+			this.#render.move(this.object.x, this.object.y);
 			this.#render.sprite();
 			this._callEvent('Draw');
 			this.#render.popPos();

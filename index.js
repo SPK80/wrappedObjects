@@ -1,15 +1,15 @@
-import { Node } from "./node.js"
-import { ListeningNode } from "./nodeWrap.js"
+import { ListeningNode, Node } from "./node.js"
 import { Object } from "./object.js";
-import { DrawingObject, Render } from "./wrappers.js";
+import { DrawingObject, PositionObject, Render } from "./wrappers.js";
 
 
 const r = new Render();
 
-const o = new DrawingObject(r, new Object('Owner'));
+const o = new DrawingObject(r,
+	new PositionObject(
+		new Object('Owner')));
 
-const n = new ListeningNode(
-	new Node(o),
+const n = new ListeningNode(o,
 	(sender, type, args) => {
 
 		if (args && typeof args[Symbol.iterator] === 'function')
@@ -31,14 +31,18 @@ const n = new ListeningNode(
 )
 
 const obj1 = new DrawingObject(r,
-	new Object('obj1'));
+	new PositionObject(
+		new Object('obj1')));
+
 n.add(obj1);
 obj1.act('Move', [1, 2])
 
 const obj2 = new DrawingObject(r,
-	new Object('obj2'));
-obj2.act('Move', [3, 4])
+	new PositionObject(
+		new Object('obj2')));
+
 n.add(obj2);
+obj2.act('Move', [3, 4])
 
 n.act('Move', [3, 4])
 n.act('Draw');

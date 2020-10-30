@@ -33,7 +33,7 @@ export class NodeWrap extends INode {
 	}
 }
 
-export class ListeningNode extends NodeWrap {
+export class ListeningNodeWrap extends NodeWrap {
 	#listeningFunc;
 	#unlistenFuncs = {};
 
