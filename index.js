@@ -2,7 +2,6 @@ import { ListeningNode, Node } from "./node.js"
 import { Object } from "./object.js";
 import { DrawingObject, PositionObject, Render } from "./wrappers.js";
 
-
 const r = new Render();
 
 const o = new DrawingObject(r,
