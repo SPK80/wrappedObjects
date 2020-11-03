@@ -11,12 +11,8 @@ export class Vector {
 		this.#y = y;
 	}
 
-	scMul(scalar) {
+	scale(scalar) {
 		return new Vector(this.#x * scalar, this.#y * scalar);
-	}
-
-	vMul(vector) {
-		throw ('vMul not implemented', this);
 	}
 
 	add(vector) {
@@ -28,7 +24,7 @@ export class Vector {
 	}
 
 	normalize() {
-		return this.scMul(1.0 / this.length);
+		return this.scale(1.0 / this.length);
 	}
 
 	get length() {
