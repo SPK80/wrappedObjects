@@ -4,7 +4,8 @@ export const phisics = {
 
 	collide: function (body1, body2) {
 		const r = body2.pos.sub(body1.pos).length;
-		const delta = 0;//body1.velocity.sub(body2.velocity).length ;
+		const delta = 0;
+		//body1.velocity.sub(body2.velocity).length ;
 		// console.log(delta);
 		return (r - (body1.size + body2.size) < delta);
 	},

@@ -101,3 +101,24 @@ export class CanvasRender {
 
 	//#endregion
 }
+
+class PositionCanvasRender extends CanvasRender {
+	#x = 0;
+	#y = 0;
+
+	#posStack = [];
+
+	pushPos() {
+		this.#posStack.push({ x: this.#x, y: this.#y })
+	}
+
+	popPos() {
+		const { x, y } = this.#posStack.pop();
+		this.setPos(x, y);
+	}
+
+	setPos(x, y) {
+		if (x) this.#x = x;
+		if (y) this.#y = y;
+	}
+}

@@ -12,19 +12,29 @@ export class Vector {
 	}
 
 	scale(scalar) {
-		return new Vector(this.#x * scalar, this.#y * scalar);
+		// return new Vector(this.#x * scalar, this.#y * scalar);
+		this.#x *= scalar;
+		this.#y *= scalar;
 	}
 
+	// sum(vector) {
+	// 	return new Vector(this.#x + vector.x, this.#y + vector.y);
+	// }
+
 	add(vector) {
+		this.#x += vector.x;
+		this.#y += vector.y;
 		return new Vector(this.#x + vector.x, this.#y + vector.y);
 	}
 
 	sub(vector) {
-		return new Vector(this.#x - vector.x, this.#y - vector.y);
+		this.#x -= vector.x;
+		this.#y -= vector.y;
+		// return new Vector(this.#x - vector.x, this.#y - vector.y);
 	}
 
 	normalize() {
-		return this.scale(1.0 / this.length);
+		this.scale(1.0 / this.length);
 	}
 
 	get length() {
