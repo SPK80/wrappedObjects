@@ -99,8 +99,8 @@ export class Render {
 	}
 
 	move(x, y) {
-		this.#x += x;
-		this.#y += y;
+		this.#x = x;
+		this.#y = y;
 		console.log(`move(${x},${y})`);
 	}
 

@@ -1,4 +1,13 @@
-export class CanvasRender {
+export class Render {
+	clear(x, y, wi, he) { throw ('clear not defined') }
+	rect(x, y, wi, he, color, fill) { throw ('rect not defined') }
+	circle(x, y, radius, color, fill) { throw ('circle not defined') }
+	text(x, y, text, color, font, fill) { throw ('text not defined') }
+	sprite(x, y, wi, he, image) { throw ('sprite not defined') }
+	tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image) { throw ('tile not defined') }
+}
+
+export class CanvasRender extends Render {
 	#width = 200;
 	#height = 200;
 	get width() { return this.#width }
@@ -9,6 +18,7 @@ export class CanvasRender {
 	#ctx = null;
 
 	constructor(wi, he, bkColor, scale = 1) {
+		super();
 		this.updateContext(wi, he, bkColor, scale);
 	}
 
@@ -36,14 +46,12 @@ export class CanvasRender {
 		this.#ctx = cnv.getContext('2d');
 	}
 
-	//#region Implement AbstractRender
 
 	clear(x, y, wi, he) {
-		this.#ctx.clearRect(x, y, wi, he);
-	}
-
-	clear() {
-		this.#ctx.clearRect(0, 0, this.#width, this.#height);
+		if (x && y && wi && he)
+			this.#ctx.clearRect(x, y, wi, he)
+		else
+			this.#ctx.clearRect(0, 0, this.#width, this.#height);
 	}
 
 	rect(x, y, wi, he, color, fill) {
@@ -102,23 +110,3 @@ export class CanvasRender {
 	//#endregion
 }
 
-class PositionCanvasRender extends CanvasRender {
-	#x = 0;
-	#y = 0;
-
-	#posStack = [];
-
-	pushPos() {
-		this.#posStack.push({ x: this.#x, y: this.#y })
-	}
-
-	popPos() {
-		const { x, y } = this.#posStack.pop();
-		this.setPos(x, y);
-	}
-
-	setPos(x, y) {
-		if (x) this.#x = x;
-		if (y) this.#y = y;
-	}
-}

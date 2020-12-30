@@ -27,7 +27,7 @@ const n = new ListeningNode(o,
 			});
 		}
 	}
-)
+);
 
 const obj1 = new DrawingObject(r,
 	new PositionObject(
