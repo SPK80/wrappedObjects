@@ -13,15 +13,15 @@ export class ObjectWrap extends IObject {
 
 	get name() { return this.#object.name }
 
-	listen(callback) {
-		return this.#object.listen(callback)
-	}
-
 	act(action, args) {
 		this.#object.act(action, args);
 	}
 
-	_callEvent(type, args) { //protected method must call under extenders
-		this.#object._callEvent(type, args);
+	onEvent(callback) {
+		return this.#object.onEvent(callback)
 	}
+
+	// _callEvent(type, args) { //protected method must call under extenders
+	// 	this.#object._callEvent(type, args);
+	// }
 }

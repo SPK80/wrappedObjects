@@ -58,10 +58,14 @@ load('tiles.png')
 		// n.add(c)
 		n.add(c1)
 		// n.add(t)
-		n.add(c2)
 
-		// c.color = '#00E0A0';
-		// console.log(decimalToHexString(1000));
+		// const n1 = new DrawingNodeWrap(
+		// 	new Node(c1),
+		// 	new PositionRender(r, c1)
+		// )
+		// n1.add(c2)
+
+
 		setInterval(
 			() => {
 				r.clear()
@@ -92,5 +96,4 @@ load('tiles.png')
 		)
 	}
 	)
-	// .catch(console.error)
 	.catch(console.error)

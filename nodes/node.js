@@ -1,16 +1,12 @@
 import { IObject } from "../objects/object.js";
 
 export class INode {
-	// get owner() { throw ('get owner() not implemented') }
 	get objects() { throw ('get objects() not implemented') }
 	add(obj) { throw ('add() not implemented') }
 	del(name) { throw ('del() not implemented') }
 }
 
-export class Node extends INode { //Node wraps owner Object	
-	constructor(owner) {
-		super();
-	}
+export class Node extends INode {
 
 	#objects = [];
 	get objects() { return this.#objects.slice() }
