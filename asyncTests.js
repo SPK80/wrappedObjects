@@ -2,8 +2,12 @@
 import { CanvasRender } from "./renders/canvasRender.js";
 import { Circle } from "./objects/circle.js";
 import { Tile } from "./objects/tile.js";
-import { DrawingNode, Node } from "./nodes/node.js";
-import { DrawingNodeWrap, SortingNodeWrap } from "./nodes/nodeWrap.js";
+import { Node } from "./nodes/node.js";
+import { DrawingNodeWrap } from "./nodes/nodeWrap.js";
+import { SortingRender } from "./renders/SortingRender.js";
+import { ShakingRender } from "./renders/ShakingRender.js";
+import { PositionRender } from "./renders/positionRender.js";
+import { DrawingObject, Shaker } from "./objects/drawingObject.js";
 
 function decimalToHexString(number) {
 	if (number < 0) {
@@ -33,13 +37,27 @@ function load(src) {
 
 load('tiles.png')
 	.then(image => {
-		const r = new CanvasRender(800, 800, '#00E0A0');
-		const c = new Circle(100, 200, 100, '#F000F1', true)
-		const c1 = new Circle(-20, 10, 10, '#0000F0', true)
-		const c2 = new Circle(0, -10, 15, '#F00000', true)
-		const t = new Tile(image, 32, 32, 0, 9);
-		const n = new DrawingNodeWrap(new Node(c), { y: true });
+		const r =
+			new SortingRender(
+				new CanvasRender(800, 800, '#00E0A0'),
+				'y')
+
+		const c = new Circle(100, 50, 50, '#F000F1', true, 'c')
+		const c1 = new Circle(50, -10, 20, '#0000F0', true, 'c1')
+		const c2 = new Circle(-10, 10, 10, '#F00000', true, 'c2')
+		// const t = new Tile(image, 32, 32, 0, 9);
+		// t.x = 70;
+		// t.y = 150;
+
+		const shaker = new Shaker('shaker', 2);
+		const n = new DrawingNodeWrap(
+			new Node(c),
+			new PositionRender(new PositionRender(r, shaker), c)
+		)
+
+		// n.add(c)
 		n.add(c1)
+		// n.add(t)
 		n.add(c2)
 
 		// c.color = '#00E0A0';
@@ -54,18 +72,23 @@ load('tiles.png')
 				// c.fill = !c.fill
 				// c.radius = Math.abs(256 * Math.sin(r.x / 3.14))
 				// c.color = `#F0${decimalToHexString(Math.round(c.radius - 1))}00`
-				c.x++
-				c.y += 10 * Math.sin(c.x / 3.14)
-				c1.y++
-				c2.x = 20 * Math.sin(2 * c.x / 3.14)
-				c2.y = 20 * Math.cos(c.x / 3.14)
+				n.draw()
+				c.y++
+				c1.y = Math.sin(c.y / 10) * 50
+				c1.x = Math.cos(c.y / 100) * 50
+				// c.y += 10 * Math.sin(c.x / 3.14)
+				// c1.y++
+				// c2.x = 20 * Math.sin(2 * c.x / 3.14)
+				// c2.y = 20 * Math.cos(c.x / 3.14)
 
-				t.act('Draw', { render: r })
-				t.x++;
-				t.y++;
+				// t.act('Draw', { render: r })
+				// t.x++;
+				// t.x++;
+				// t.y++;
+				// t.y++;
 
 			},
-			60
+			50
 		)
 	}
 	)

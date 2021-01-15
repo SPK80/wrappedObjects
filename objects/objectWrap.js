@@ -21,7 +21,7 @@ export class ObjectWrap extends IObject {
 		this.#object.act(action, args);
 	}
 
-	_callEvent(type, args) {
+	_callEvent(type, args) { //protected method must call under extenders
 		this.#object._callEvent(type, args);
 	}
 }

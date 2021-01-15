@@ -1,9 +1,7 @@
 import { Render } from "../renders/canvasRender.js";
-import { PositionRender } from "../renders/positionRender.js";
 import { INode } from "./node.js";
 
 export class NodeWrap extends INode {
-
 	#node;
 
 	constructor(node) {
@@ -29,7 +27,6 @@ export class ListeningNodeWrap extends NodeWrap {
 		this.#unlistenFuncs[this.name] = this.listen(this.#listeningFunc);
 	}
 
-
 	add(obj) {
 		super.add(obj);
 		this.#unlistenFuncs[obj.name] = obj.listen(this.#listeningFunc);
@@ -40,41 +37,21 @@ export class ListeningNodeWrap extends NodeWrap {
 		const unlistenFunc = this.#unlistenFuncs[name];
 		if (unlistenFunc) {
 			unlistenFunc();
+			delete this.#unlistenFuncs[name];
 		}
 	}
 }
 
-
-export class SortingNodeWrap extends NodeWrap {
-	#sortBy;
-	constructor(node, sortBy) {
-		super(node);
-		this.#sortBy = sortBy;
-	}
-
-	get objects() {
-		const objects = super.objects;
-		if (this.#sortBy.x)
-			objects.sort((o1, o2) => { o1.x - o2.x })
-		if (this.#sortBy.y)
-			objects.sort((o1, o2) => { o1.y - o2.y })
-		if (this.#sortBy.z)
-			objects.sort((o1, o2) => { o1.z - o2.z })
-		return objects
-	}
-}
-
 export class DrawingNodeWrap extends NodeWrap {
-	constructor(node) {
-		super(node);
+	#render;
+	constructor(node, render) {
+		super(node)
+		this.#render = render;
+	}
 
-		node.owner.onEvent((sender, type, args) => {
-			if (type == 'Draw' && args.render && args.render instanceof Render) {
-				const r = new PositionRender(args.render, sender.x, sender.y);
-				this.objects.forEach(obj => {
-					obj.act('Draw', { render: r });
-				});
-			}
-		});
+	draw() {
+		this.objects.forEach(obj => {
+			obj.act('Draw', { render: this.#render })
+		})
 	}
 }
