@@ -5,9 +5,10 @@ import { Tile } from "./objects/tile.js";
 import { Node } from "./nodes/node.js";
 import { DrawingNodeWrap } from "./nodes/nodeWrap.js";
 import { SortingRender } from "./renders/SortingRender.js";
-import { ShakingRender } from "./renders/ShakingRender.js";
-import { PositionRender } from "./renders/positionRender.js";
+import { AttachedRender } from "./renders/attachedRender.js";
 import { DrawingObject, Shaker } from "./objects/drawingObject.js";
+import { DrawingOwnerWrap } from "./objects/Owner.js";
+import { WanderingCircle } from "./wanderingCircle";
 
 function decimalToHexString(number) {
 	if (number < 0) {
@@ -42,8 +43,8 @@ load('tiles.png')
 				new CanvasRender(800, 800, '#00E0A0'),
 				'y')
 
-		const c = new Circle(100, 50, 50, '#F000F1', true, 'c')
-		const c1 = new Circle(50, -10, 20, '#0000F0', true, 'c1')
+		const c = new WanderingCircle(100, 50, 50, '#F000F1', true, 'c', 800, 800)
+		const c1 = new Circle(0, -50, 20, '#0000F0', true, 'c1')
 		const c2 = new Circle(-10, 10, 10, '#F00000', true, 'c2')
 		// const t = new Tile(image, 32, 32, 0, 9);
 		// t.x = 70;
@@ -52,7 +53,7 @@ load('tiles.png')
 		const shaker = new Shaker('shaker', 2);
 		const n = new DrawingNodeWrap(
 			new Node(c),
-			new PositionRender(new PositionRender(r, shaker), c)
+			new AttachedRender(new AttachedRender(r, shaker), c)
 		)
 
 		// n.add(c)
@@ -65,6 +66,8 @@ load('tiles.png')
 		// )
 		// n1.add(c2)
 
+		const w = new DrawingOwnerWrap(c)
+		w.add(c1)
 
 		setInterval(
 			() => {
@@ -72,14 +75,15 @@ load('tiles.png')
 				// r.sprite(0, 0, image.width, image.height, image)
 				// r.clear(0, 0, 100, 200)
 				// r.circle(100, 200, 100, '#F00000', true)
-				c.act('Draw', { render: r })
+				// c.act('Draw', { render: r })
 				// c.fill = !c.fill
 				// c.radius = Math.abs(256 * Math.sin(r.x / 3.14))
 				// c.color = `#F0${decimalToHexString(Math.round(c.radius - 1))}00`
-				n.draw()
-				c.y++
-				c1.y = Math.sin(c.y / 10) * 50
-				c1.x = Math.cos(c.y / 100) * 50
+				// n.draw()
+				w.act('Draw', { render: r })
+				// c.y++
+				c1.y = Math.sin((c.x + c.y) * 0.1) * 50
+				c1.x = Math.cos((c.x + c.y) * 0.1) * 50
 				// c.y += 10 * Math.sin(c.x / 3.14)
 				// c1.y++
 				// c2.x = 20 * Math.sin(2 * c.x / 3.14)
@@ -90,10 +94,8 @@ load('tiles.png')
 				// t.x++;
 				// t.y++;
 				// t.y++;
-
 			},
-			50
+			1000 / 60
 		)
-	}
-	)
+	})
 	.catch(console.error)

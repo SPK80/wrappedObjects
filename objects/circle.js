@@ -41,4 +41,3 @@ export class Circle extends DrawingObject {
 		}
 	}
 }
-
