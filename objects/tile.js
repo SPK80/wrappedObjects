@@ -1,4 +1,4 @@
-import { Render } from "../renders/canvasRender.js";
+import { IRender } from "../renders/canvasRender.js";
 import { DrawingObject } from "./drawingObject.js";
 
 export class Tile extends DrawingObject {
@@ -26,13 +26,14 @@ export class Tile extends DrawingObject {
 	}
 
 	act(action, args) {
-		if (action == 'Draw' && args.render && args.render instanceof Render) {
-			args.render.tile(this.x, this.y,
+		if (action == 'Draw' && args.render && args.render instanceof IRender) {
+			args.render.tile(this.#image,
+				this.x, this.y,
 				this.#width, this.#height,
 				this.#tX, this.#tY,
-				this.#width, this.#height,
-				this.#image);
-			this._callEvent('Draw', { render: args.render });
+				this.#width, this.#height
+			);
+			// this._callEvent('Draw', { render: args.render });
 		}
 	}
 }

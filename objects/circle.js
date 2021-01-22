@@ -1,4 +1,4 @@
-import { Render } from "../renders/canvasRender.js";
+import { IRender } from "../renders/canvasRender.js";
 import { DrawingObject } from "./drawingObject.js";
 
 export class Circle extends DrawingObject {
@@ -26,7 +26,7 @@ export class Circle extends DrawingObject {
 	constructor(x, y, radius, color, fill, name) {
 		if (name) super(name)
 		else super('TestObject');
-		
+
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
@@ -35,7 +35,7 @@ export class Circle extends DrawingObject {
 	}
 
 	act(action, args) {
-		if (action == 'Draw' && args.render && args.render instanceof Render) {
+		if (action == 'Draw' && args.render && args.render instanceof IRender) {
 			args.render.circle(this.x, this.y, this.#radius, this.#color, this.#fill);
 			// this._callEvent('Draw', { render: args.render })
 		}

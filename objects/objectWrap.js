@@ -14,7 +14,9 @@ export class ObjectWrap extends IObject {
 	get name() { return this.#object.name }
 
 	act(action, args) {
+
 		this.#object.act(action, args);
+		super.act(action, args);
 	}
 
 	onEvent(callback) {

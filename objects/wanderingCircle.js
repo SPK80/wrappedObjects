@@ -1,4 +1,4 @@
-import { Circle } from "./objects/circle.js";
+import { Circle } from "./circle.js";
 
 export class WanderingCircle extends Circle {
 	dx = 0;
@@ -19,7 +19,7 @@ export class WanderingCircle extends Circle {
 			if ((this.y <= radius && this.dy < 0) ||
 				(this.y - radius > maxY && this.dy > 0))
 				this.dy = -this.dy;
-		}, 200);
+		}, 400);
 	}
 
 	act(action, args) {

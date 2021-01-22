@@ -1,13 +1,13 @@
-export class Render {
+export class IRender {
 	clear(x, y, wi, he) { throw ('clear not defined') }
 	rect(x, y, wi, he, color, fill) { throw ('rect not defined') }
 	circle(x, y, radius, color, fill) { throw ('circle not defined') }
-	text(x, y, text, color, font, fill) { throw ('text not defined') }
-	sprite(x, y, wi, he, image) { throw ('sprite not defined') }
-	tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image) { throw ('tile not defined') }
+	text(text, x, y, color, font, fill) { throw ('text not defined') }
+	sprite(image, x, y, wi, he) { throw ('sprite not defined') }
+	tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe) { throw ('tile not defined') }
 }
 
-export class CanvasRender extends Render {
+export class CanvasRender extends IRender {
 	#width = 200;
 	#height = 200;
 	get width() { return this.#width }
@@ -82,24 +82,37 @@ export class CanvasRender extends Render {
 		// this.#ctx.stroke();
 	}
 
-	text(x, y, text, color, font, fill) {
-		if (font) this.#ctx.font = font; //'50px serif';
+	#currentColor = '#FF0000'
+	_getColor(color) { return color ? color : this.#currentColor }
+
+	_getX(x) { return x ? x : 0 }
+	_getY(y) { return y ? y : 0 }
+	_getFont(font) { return font ? font : '50px serif' }
+
+	text(text, x, y, color, font, fill) {
+
+		const _x = this._getX(x);
+		const _y = this._getX(y);
+		const _font = this._getFont(font);
+		const _color = this._getColor(color);
+
+		if (font) this.#ctx.font = _font;
 		this.#ctx.beginPath();
-		if (fill) {
-			this.#ctx.fillStyle = color;
-			this.#ctx.fillText(text, x, y);
+		if (fill == false) {
+			this.#ctx.strokeStyle = _color
+			this.#ctx.strokeText(text, _x, _y)
 		}
-		else {
-			this.#ctx.strokeStyle = color;
-			this.#ctx.strokeText(text, x, y);
+		else if (fill == true || fill == undefined) {
+			this.#ctx.fillStyle = _color
+			this.#ctx.fillText(text, _x, _y)
 		}
 	}
 
-	sprite(x, y, wi, he, image) {
+	sprite(image, x, y, wi, he) {
 		this.#ctx.drawImage(image, x, y, wi, he);
 	}
 
-	tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image) {
+	tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe) {
 		this.#ctx.drawImage(
 			image,
 			tiX, tiY, tiWi, tiHe,

@@ -1,6 +1,6 @@
-import { Render } from "./canvasRender.js";
+import { IRender } from "./canvasRender.js";
 
-export class RenderWrap extends Render {
+export class RenderWrap extends IRender {
 	#render;
 	// get render() { return this.#render; }
 
@@ -21,15 +21,15 @@ export class RenderWrap extends Render {
 		this.#render.circle(x, y, radius, color, fill)
 	}
 
-	text(x, y, text, color, font, fill) {
-		this.#render.text(x, y, text, color, font, fill)
+	text(text, x, y, color, font, fill) {
+		this.#render.text(text, x, y, color, font, fill)
 	}
 
-	sprite(x, y, wi, he, image) {
-		this.#render.sprite(x, y, wi, he, image)
+	sprite(image, x, y, wi, he) {
+		this.#render.sprite(image, x, y, wi, he)
 	}
 
-	tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image) {
-		this.#render.tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image)
+	tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe) {
+		this.#render.tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe)
 	}
 }

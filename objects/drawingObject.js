@@ -24,4 +24,4 @@ export class Shaker extends DrawingObject {
 	}
 	get x() { return super.x + ((Math.random() - 0.5) * this.#force) * 2 }
 	get y() { return super.y + ((Math.random() - 0.5) * this.#force) * 2 }
-} 
+}

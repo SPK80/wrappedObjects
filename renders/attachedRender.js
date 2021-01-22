@@ -1,3 +1,4 @@
+import { DrawingObject } from "../objects/drawingObject.js";
 import { RenderWrap } from "./renderWrap.js";
 
 export class AttachedRender extends RenderWrap {
@@ -5,7 +6,9 @@ export class AttachedRender extends RenderWrap {
 	#target;
 	constructor(render, target) {
 		super(render);
+		// if (!(target instanceof DrawingObject)) throw ('target must by instanceof DrawingObject')
 		this.#target = target;
+
 	}
 
 	rect(x, y, wi, he, color, fill) {
@@ -16,15 +19,15 @@ export class AttachedRender extends RenderWrap {
 		super.circle(x + this.#target.x, y + this.#target.y, radius, color, fill);
 	}
 
-	text(x, y, text, color, font, fill) {
+	text(text, x, y, color, font, fill) {
 		super.text(x + this.#target.x, y + this.#target.y, text, color, font, fill);
 	}
 
-	sprite(x, y, wi, he, image) {
+	sprite(image, x, y, wi, he) {
 		super.sprite(x + this.#target.x, y + this.#target.y, wi, he, image);
 	}
 
-	tile(x, y, wi, he, tiX, tiY, tiWi, tiHe, image) {
+	tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe) {
 		super.tile(x + this.#target.x, y + this.#target.y, wi, he, tiX, tiY, tiWi, tiHe, image);
 	}
 }
