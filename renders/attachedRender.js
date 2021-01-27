@@ -20,14 +20,14 @@ export class AttachedRender extends RenderWrap {
 	}
 
 	text(text, x, y, color, font, fill) {
-		super.text(x + this.#target.x, y + this.#target.y, text, color, font, fill);
+		super.text(text, x + this.#target.x, y + this.#target.y, color, font, fill);
 	}
 
 	sprite(image, x, y, wi, he) {
-		super.sprite(x + this.#target.x, y + this.#target.y, wi, he, image);
+		super.sprite(image, x + this.#target.x, y + this.#target.y, wi, he);
 	}
 
 	tile(image, x, y, wi, he, tiX, tiY, tiWi, tiHe) {
-		super.tile(x + this.#target.x, y + this.#target.y, wi, he, tiX, tiY, tiWi, tiHe, image);
+		super.tile(image, x + this.#target.x, y + this.#target.y, wi, he, tiX, tiY, tiWi, tiHe,);
 	}
 }

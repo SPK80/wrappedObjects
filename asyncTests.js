@@ -5,7 +5,8 @@ import { Tile } from "./objects/tile.js";
 import { SortingRender } from "./renders/SortingRender.js";
 import { AttachedRender } from "./renders/attachedRender.js";
 import { DrawingObject, Shaker } from "./objects/drawingObject.js";
-import { Owner } from "./objects/Owner.js";
+import { IObject } from "./objects/object.js";
+import { Owner, IOwner } from "./objects/owner.js";
 import { DrawingOwnerWrap } from "./objects/drawingOwnerWrap.js";
 import { WanderingCircle } from "./objects/wanderingCircle.js";
 import { Scene } from "./objects/Scene.js";
@@ -44,7 +45,7 @@ load('tiles.png')
 
 		const c = new WanderingCircle(300, 250, 50, '#F000F1', true, 'WanderingCircle', 800, 800)
 		const c1 = new Circle(0, -50, 20, '#0000F0', true, 'Circle1')
-		const c2 = new Circle(-10, 10, 10, '#F00000', true, 'Circle2')
+		const c2 = new Circle(100, 10, 10, '#F00000', true, 'Circle2')
 		const t = new Tile(image, 32, 32, 0, 9);
 		t.x = 70;
 		t.y = 150;
@@ -64,15 +65,16 @@ load('tiles.png')
 		// 	new PositionRender(r, c1)
 		// )
 		// n1.add(c2)
-
 		const w1 = new DrawingOwnerWrap(new Owner(c), c)
 		w1.add(c1)
+		// w1.add(c2)
 
-		// const w2 = new DrawingOwnerWrap(new Owner(c))
-		// w2.add(c1)
+		const w2 = new DrawingOwnerWrap(new Owner(c2), c2)
+		w2.add(t)
 
 		const scene = new Scene('123')
-		scene.add(w1, t)
+		scene.add(w1)
+		scene.add(w2)
 
 		setInterval(
 			() => {
@@ -88,6 +90,10 @@ load('tiles.png')
 				// c.y++
 				c1.y = Math.sin((c.x + c.y) * 0.1) * 50
 				c1.x = Math.cos((c.x + c.y) * 0.1) * 50
+
+
+				c2.x++
+				c2.y = Math.sin((c2.x) * 0.1) * 50 + 10
 				// c.y += 10 * Math.sin(c.x / 3.14)
 				// c1.y++
 				// c2.x = 20 * Math.sin(2 * c.x / 3.14)
