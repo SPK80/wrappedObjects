@@ -37,6 +37,7 @@ export class Circle extends DrawingObject {
 	act(action, args) {
 		if (action == 'Draw' && args.render && args.render instanceof IRender) {
 			args.render.circle(this.x, this.y, this.#radius, this.#color, this.#fill);
+			args.render.text(this.name, this.x - this.#radius, this.y - this.#radius, this.color, '14px arial')
 			// this._callEvent('Draw', { render: args.render })
 		}
 	}

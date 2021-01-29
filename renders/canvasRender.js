@@ -96,7 +96,7 @@ export class CanvasRender extends IRender {
 		const _font = this._getFont(font);
 		const _color = this._getColor(color);
 
-		if (font) this.#ctx.font = _font;
+		this.#ctx.font = _font;
 		this.#ctx.beginPath();
 		if (fill == false) {
 			this.#ctx.strokeStyle = _color

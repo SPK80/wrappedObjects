@@ -6,6 +6,8 @@ export class IOwner extends IObject {
 	del(name) { throw ('del() not implemented') }
 }
 
+const owners = []
+
 export class Owner extends IOwner {
 	#owner;
 	constructor(object) {
@@ -57,12 +59,12 @@ export class OwnerWrap extends IOwner {
 
 	get objects() { return this.#owner.objects }
 
-	add(...objects) {
-		this.#owner.add(...objects)
+	add(object) {
+		this.#owner.add(object)
 	}
 
-	del(...names) {
-		this.#owner.del(...names)
+	del(name) {
+		this.#owner.del(name)
 	}
 
 	// Wrap IObject:
