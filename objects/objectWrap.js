@@ -22,8 +22,4 @@ export class ObjectWrap extends IObject {
 	onEvent(callback) {
 		return this.#object.onEvent(callback)
 	}
-
-	// _callEvent(type, args) { //protected method must call under extenders
-	// 	this.#object._callEvent(type, args);
-	// }
 }

@@ -23,6 +23,7 @@ export class SortingOwnerWrap extends Owner {
 export class Scene extends OwnerWrap {
 	constructor(name) {
 		super(new Owner(new Object(name)))
+		
 	}
 
 	act(action, args) {

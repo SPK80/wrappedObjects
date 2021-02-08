@@ -4,7 +4,7 @@ export class IObject {
 	get name() { throw ('get name() not implemented') }
 	onEvent(callback) { throw ('onEvent() not implemented') } //must return unlisten function
 	act(action, args) { throw ('act() not implemented') }
-	delete() { throw ('act() not implemented') }
+	// delete() { throw ('act() not implemented') }
 	// initDriver(name, driver) { throw ('initDriver() not implemented') }
 	// removeDriver(name) { throw ('removeDriver() not implemented') }
 }
@@ -29,11 +29,7 @@ export class Object extends IObject {
 	}
 
 	act(action, args) {
-		this.#event.call(this, action, args)
-	}
-
-	delete() {
-		this.#event.call(this, 'delete')
+		this.#event.call(this, action, args)		
 	}
 
 	// #drivers = {}

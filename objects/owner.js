@@ -6,8 +6,6 @@ export class IOwner extends IObject {
 	del(name) { throw ('del() not implemented') }
 }
 
-const owners = []
-
 export class Owner extends IOwner {
 	#owner;
 	constructor(object) {
@@ -20,9 +18,10 @@ export class Owner extends IOwner {
 	#objects = [];
 	get objects() { return this.#objects.slice() }
 
-	add(object) {
-		if (!(object instanceof IObject)) throw (`${object} must be instanceof IObject`);
-		this.#objects.push(object);
+	add(obj) {
+		if (!(obj instanceof IObject)) throw (`${obj} must be instanceof IObject`);
+		this.#objects.push(obj);
+		this._callEvent('add', { object: obj })
 	}
 
 	// add(...objects) { objects.forEach(this.add) }
@@ -32,7 +31,10 @@ export class Owner extends IOwner {
 		const obj = this.#objects.find(o => o?.name == name);
 
 		if (!obj) console.warn(`${name} not found!`)
-		else delete this.#objects[this.#objects.indexOf(obj)];
+		else {
+			delete this.#objects[this.#objects.indexOf(obj)];
+			this._callEvent('del', { object: obj })
+		}
 		return obj
 	}
 

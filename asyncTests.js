@@ -1,4 +1,3 @@
-
 import { CanvasRender } from "./renders/canvasRender.js";
 import { Circle } from "./objects/circle.js";
 import { Tile } from "./objects/tile.js";
