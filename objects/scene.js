@@ -7,7 +7,7 @@ export class SortingOwnerWrap extends Owner {
 	#sortBy = '';
 	#revers = false;
 
-	act(action, args) {
+	do(action, args) {
 		if (action == this.#sortOn) {
 			this.objects.sort((o1, o2) => {
 				if (this.#revers)
@@ -16,27 +16,67 @@ export class SortingOwnerWrap extends Owner {
 					return o2[this.#sortBy] - o1[this.#sortBy]
 			})
 		}
-		super.act(action, args)
+		super.do(action, args)
 	}
 }
 
 export class Scene extends OwnerWrap {
 	constructor(name) {
 		super(new Owner(new Object(name)))
-		
+
 	}
 
-	act(action, args) {
-		if (action == 'Draw') {
-			args.render.clear()
-		}
-		// const result = super.act(action, args)
-		//Act ForEach containing object		
-		this.objects.forEach(obj => {
-			// if (action == 'Draw') {
-			obj.act(action, args)
-		})
+	_drivers = {}
 
-		// return result;
+	init(drivers) {
+		Object.assign(this._drivers, drivers)
+		this._drivers.forEach(driver => {
+			driver.init()
+		})
+	}
+
+	done() {
+		this._drivers.forEach(driver => {
+			driver.done()
+		})
+		this._drivers = {}
+	}
+
+	update() {
+		this._drivers.forEach(driver => {
+			driver.update()
+		})
+	}
+
+	// do(action, args) {
+	// 	if (action == 'Draw') {
+	// 		args.render.clear()
+	// 	}
+	// 	// const result = super.act(action, args)
+	// 	//Act ForEach containing object		
+	// 	this.objects.forEach(obj => {
+	// 		// if (action == 'Draw') {
+	// 		obj.do(action, args)
+	// 	})
+	// return result;
+	// }
+}
+
+export class TestScene extends Scene {
+	init(drivers) {
+		super.init(drivers);
+		console.log(`${this.name} init`);
+	}
+
+	done() {
+		super.done();
+		console.log(`${this.name} done`);
+	}
+
+	update() {
+		super.update();
+		this._drivers.forEach(obj => {
+			obj.do(action, args)
+		})
 	}
 }

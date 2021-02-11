@@ -3,7 +3,8 @@ import { Event } from "../event.js";
 export class IObject {
 	get name() { throw ('get name() not implemented') }
 	onEvent(callback) { throw ('onEvent() not implemented') } //must return unlisten function
-	act(action, args) { throw ('act() not implemented') }
+	do(action, args) { throw ('do() not implemented') }
+	get(args) { throw ('get() not implemented') }
 	// delete() { throw ('act() not implemented') }
 	// initDriver(name, driver) { throw ('initDriver() not implemented') }
 	// removeDriver(name) { throw ('removeDriver() not implemented') }
@@ -20,7 +21,7 @@ export class Object extends IObject {
 	}
 
 	#event = new Event()
-	_callEvent(type, args) {
+	_callEvent(type, args) {  //protected metod!
 		return this.#event.call(this, type, args)
 	}
 
@@ -28,8 +29,12 @@ export class Object extends IObject {
 		return this.#event.subscribe(callback)
 	}
 
-	act(action, args) {
-		this.#event.call(this, action, args)		
+	do(action, args) {
+		this.#event.call(this, action, args)
+	}
+
+	get(args) {
+		return {} //empty	object
 	}
 
 	// #drivers = {}
@@ -41,3 +46,14 @@ export class Object extends IObject {
 	// 	delete this.#drivers[name]
 	// }
 }
+
+// export class SubjectWrap extends ObjectWrap {
+// 	#owner;
+// 	get owner() { return this.#owner }
+
+// 	submit(owner) {
+// 		if (this.#owner) this.#owner.del(this.name)
+// 		this.#owner = owner
+// 		this.#owner.add(this)
+// 	}
+// }

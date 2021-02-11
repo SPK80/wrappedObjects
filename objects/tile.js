@@ -25,7 +25,7 @@ export class Tile extends DrawingObject {
 			this.#tY = nY * this.#height;
 	}
 
-	act(action, args) {
+	do(action, args) {
 		if (action == 'Draw' && args.render && args.render instanceof IRender) {
 			args.render.tile(this.#image,
 				this.x, this.y,

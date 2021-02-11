@@ -22,8 +22,8 @@ export class WanderingCircle extends Circle {
 		}, 400);
 	}
 
-	act(action, args) {
-		super.act(action, args);
+	do(action, args) {
+		super.do(action, args);
 		this.x += this.dx;
 		this.y += this.dy;
 	}

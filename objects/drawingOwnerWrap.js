@@ -2,17 +2,17 @@ import { AttachedRender } from "../renders/attachedRender.js";
 import { OwnerWrap } from "./owner.js";
 
 export class DrawingOwnerWrap extends OwnerWrap {
-	#drawingOwner;
+	// #drawingOwner;
 
-	constructor(owner, drawingOwner) {
+	constructor(owner) {
 		super(owner);
-		this.#drawingOwner = drawingOwner;
+		// this.#drawingOwner = drawingOwner;
 	}
 
 	#render;
 	getAttachedRender(render) {
 		if (this.#render == undefined)
-			this.#render = new AttachedRender(render, this.#drawingOwner);
+			this.#render = new AttachedRender(render, this.owner);
 		return this.#render
 	}
 
@@ -27,8 +27,8 @@ export class DrawingOwnerWrap extends OwnerWrap {
 	// 	return obj;
 	// }
 
-	act(action, args) {
-		const result = this.owner.act(action, args);
+	do(action, args) {
+		const result = this.owner.do(action, args);
 		if (action == 'Draw') {
 			const newArgs = {};
 			Object.assign(newArgs, args);
